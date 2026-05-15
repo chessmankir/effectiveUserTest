@@ -42,26 +42,34 @@ export class AuthService{
         return user;
     }
 
-    async login(email: string, password: string){
+    async login(email: string, password: string) {
         const user = await prisma.user.findUnique({
             where: {
-                email: email,
-            }
-        })
+                email,
+            },
+        });
 
         if (!user) {
-            throw new Error("пользователь не найден");
+            throw new Error("USER_NOT_FOUND");
         }
 
-        if(!user.isActive){
-            throw new  Error('Users blocked')
+        if (!user.isActive) {
+            throw new Error("USER_BLOCKED");
         }
 
-        const accessToken = jwt.sign({
-            userId: user.id,
-            role: user.role,
-        },
-            process.env.JWT_ACCESS_SECRET as string, {expiresIn: "1h"}
+        const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+
+        if (!isPasswordValid) {
+            throw new Error("INVALID_PASSWORD");
+        }
+
+        const accessToken = jwt.sign(
+            {
+                userId: user.id,
+                role: user.role,
+            },
+            process.env.JWT_ACCESS_SECRET as string,
+            { expiresIn: "1h" }
         );
 
         return {
@@ -71,7 +79,7 @@ export class AuthService{
                 email: user.email,
                 role: user.role,
                 isActive: user.isActive,
-            }
-        }
+            },
+        };
     }
 }

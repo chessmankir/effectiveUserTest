@@ -34,7 +34,7 @@ export class UsersController {
        })
    }
 
-   async getALl(req: AuthRequest, res: Response) {
+   async getAll(req: AuthRequest, res: Response) {
        const users = await userService.getAll();
 
        return res.json({

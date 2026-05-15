@@ -37,18 +37,18 @@ export class AuthController {
             })
         }
         catch (error: any) {
-            if (error.message === 'INVALID_CREDENTIALS'){
-                return res.status(401).json({
-                    ok: false,
-                    message: "Неверный email или пароль"
-                })
-            }
-
             if(error.message === 'USER_BLOCKED'){
                 return res.status(403).json({
                     ok: false,
                     message: "Пользователь заблокирован"
                 })
+            }
+
+            if (error.message === "USER_NOT_FOUND" || error.message === "INVALID_PASSWORD") {
+                return res.status(401).json({
+                    ok: false,
+                    message: "Неверный email или пароль",
+                });
             }
 
             return res.status(500).json({
