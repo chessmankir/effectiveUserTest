@@ -14,6 +14,5 @@ export const swaggerSpec = swaggerJsdoc({
            }
        ]
    },
-   apis: ["./src/nodules/*.ts"]
-
+   apis: ["./src/modules/**/*.ts"]
 });
