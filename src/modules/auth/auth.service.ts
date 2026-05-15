@@ -5,7 +5,7 @@ import {unwatchFile} from "node:fs";
 
 export class AuthService{
     async register(userData: UserType){
-        const existingUser = await prisma.users.findUnique({
+        const existingUser = await prisma.user.findUnique({
             where: {
                 email: userData.email
             }
@@ -15,7 +15,7 @@ export class AuthService{
         }
         const passwordHash = await bcrypt.hash(userData.password, 10);
 
-        const user = await prisma.users.create({
+        const user = await prisma.user.create({
             data: {
                 firstName: userData.firstName,
                 lastName: userData.lastName,
@@ -25,7 +25,6 @@ export class AuthService{
                 passwordHash,
                 role: "user",
                 isActive: true,
-                createdAt: true,
             },
             select: {
                 id: true,
@@ -44,7 +43,7 @@ export class AuthService{
     }
 
     async login(email: string, password: string){
-        const user = await prisma.users.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
                 email: email,
             }

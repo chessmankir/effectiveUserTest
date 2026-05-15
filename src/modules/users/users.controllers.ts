@@ -6,7 +6,7 @@ const userService = new UsersService();
 
 export class UsersController {
    async getUserById(req: AuthRequest, res: Response) {
-       const {id} = req.params;
+       const id =  String(req.params.id);
 
        const isAdmin = req.user?.role === 'admin';
        const isOwer = req.user?.userId === id;
@@ -44,7 +44,7 @@ export class UsersController {
    }
 
    async blockUser(req: AuthRequest, res: Response) {
-       const { id } = req.params;
+       const  id  = String(req.params.id);
 
        const isAdmin = req.user?.role === 'admin';
 
