@@ -2,12 +2,15 @@ import express from "express";
 import cors from "cors";
 import authRouter from "./modules/auth/auth.router";
 import userRoutes from "./modules/users/user.routes";
+import swaggerUi from "swagger-ui-express";
+import {swaggerSpec} from "./config/swagger";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.post("/api/auth", authRouter);
 app.post("/api/users", userRoutes);
 
