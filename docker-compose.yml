@@ -1,0 +1,12 @@
+services:
+  back:
+    build: .
+    container_name: effective_back
+    restart: always
+    ports:
+      - "4010:4010"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
