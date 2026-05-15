@@ -34,14 +34,24 @@ export class UsersController {
        })
    }
 
-   async getAll(req: AuthRequest, res: Response) {
-       const users = await userService.getAll();
+    async getAll(req: AuthRequest, res: Response) {
+        console.log("getAll");
+        try {
+            const users = await userService.getAll();
+            console.log(users);
+            return res.json({
+                ok: true,
+                users,
+            });
+        } catch (error) {
+            console.log(error);
 
-       return res.json({
-           ok: true,
-           users,
-       });
-   }
+            return res.status(500).json({
+                ok: false,
+                message: "SERVER_ERROR",
+            });
+        }
+    }
 
    async blockUser(req: AuthRequest, res: Response) {
        const  id  = String(req.params.id);
