@@ -17,7 +17,7 @@ const userController = new UsersController();
  *       200:
  *         description: Список пользователей
  */
-router.get('/', authMiddleware, adminOnly, userController.getALl.bind(userController));
+router.get('/', authMiddleware, adminOnly, userController.getUserById.bind(userController));
 
 /**
  * @swagger
@@ -66,6 +66,6 @@ router.get('/:id', authMiddleware, userController.getALl.bind(userController));
  *       404:
  *         description: Пользователь не найден
  */
-router.patch(':id/block', authMiddleware, userController.blockUser.bind(userController));
+router.patch('/:id/block', authMiddleware, userController.blockUser.bind(userController));
 
 export default router;
